@@ -1,0 +1,24 @@
+<form action="/asto_web/UserController/find.do" method="post">
+   编号:<input type="text" name="id" value="${tiaojian}" />
+   <input type="submit" value="搜索">
+</form>
+<table border="1">
+	<tr>
+	   <th>编号</th>
+	   <th>姓名</th> 
+	   <th>年龄</th>
+	   <th>操作</th>
+	</tr>
+	#foreach (${usertwo} in ${user})
+    <tr>
+       <td>${usertwo.id}</td>
+       <td>${usertwo.name}</td>
+       <td>${usertwo.age}</td>
+        <td><a href="/asto_web/UserController/delete/${usertwo.id}.do">删除</a>
+        <a href="/asto_web/UserController/update/${usertwo.id}.do">修改</a>
+        <a href="/asto_web/UserController/addset.do">添加</a></td>
+    </tr>
+    #end
+</table>
+      <a href="/asto_web/UserController/finddown/${sizeto}/${tiaojian}.do">上一页</a>
+    <a href="/asto_web/UserController/findup/${sizeto}/${tiaojian}.do">下一页</a>

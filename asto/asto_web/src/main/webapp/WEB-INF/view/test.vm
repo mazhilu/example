@@ -1,0 +1,23 @@
+
+<table border="1">
+	<tr>
+	   <th>编号</th>
+	   <th>姓名</th> 
+	   <th>年龄</th>
+	   <th>事件</th>
+	</tr>
+	#foreach (${usertwo} in ${user})
+	#foreach (${userthree} in ${usertwo.userget})
+    <tr>
+       <td>${usertwo.id}</td>
+       <td>${usertwo.name}</td>
+       <td>${usertwo.age}</td>
+       <td>${userthree.username}</td>
+    </tr>
+    #end
+    #end
+</table>
+
+<form action="ber.do" method="post">
+  <input type="submit" value="添加"/> 
+ </form>

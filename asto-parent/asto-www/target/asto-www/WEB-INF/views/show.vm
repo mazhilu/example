@@ -1,0 +1,10 @@
+show show 
+
+
+可以了玩了么
+
+
+#foreach($in in $list)
+	account :  ${in.account}<br/>
+	
+#end

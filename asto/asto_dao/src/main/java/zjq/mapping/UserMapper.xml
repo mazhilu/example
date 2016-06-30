@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zjq.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="zjq.model.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, age
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from userinfo
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from userinfo
+		where name = #{name,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		userinfo
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="zjq.model.User">
+		insert into userinfo (id,
+		name, age
+		)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{age,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="zjq.model.User">
+		insert into userinfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="zjq.model.User">
+		update userinfo
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="zjq.model.User">
+		update userinfo
+		set name = #{name,jdbcType=VARCHAR},
+		age = #{age,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectUser1" parameterType="int" resultType="zjq.model.emp">
+		SELECT
+		emp.ip,emp.userId,emp.id
+		FROM
+		emp where id=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<resultMap type="zjq.model.User" id="UserResultMap" extends="BaseResultMap">
+		<!-- user中关系字段 -->
+		<collection property="emp" column="id" javaType="list"
+			select="selectUser1"></collection>
+	</resultMap>
+
+	<select id="getAll" resultMap="UserResultMap">
+		select id, name, age from userinfo
+	</select>
+
+
+
+
+	<resultMap type="zjq.model.User" id="userResultMap2" extends="BaseResultMap">
+		<collection property="emp" javaType="list" ofType="zjq.model.emp">
+			<id property="ip" column="emp_ip"></id>
+			<result property="userid" column="emp_userId" />
+			<result property="id" column="emp_id" />
+		</collection>
+	</resultMap>
+
+	<select id="getAll2" resultMap="userResultMap2">
+		SELECT
+		emp.ip emp_ip
+		,emp.userId
+		emp_userId
+		,emp.id emp_id
+		,userinfo.id
+		,userinfo.name
+		,userinfo.age
+		FROM
+		tb_user.emp
+		JOIN tb_user.userinfo
+		ON (emp.id = userinfo.id)
+	</select>
+
+
+	<resultMap type="zjq.model.User" id="userResultMap3" extends="BaseResultMap">
+		<collection property="emp" javaType="list" ofType="zjq.model.emp">
+			<id property="ip" column="emp_ip"></id>
+			<result property="userid" column="emp_userId" />
+			<result property="id" column="emp_id" />
+
+			<association property="userto" javaType="zjq.model.usertest">
+				<id property="userid" column="user2_userId" />
+				<result property="username" column="user2_userName" />
+				<result property="age" column="user2_age" />
+			</association>
+		</collection>
+	</resultMap>
+	<select id="getAll3" resultMap="userResultMap3">
+		SELECT
+		emp.ip emp_ip
+		,emp.userId
+		emp_userId
+		,emp.id emp_id
+		,userinfo.id
+		,userinfo.name
+		,userinfo.age
+		,user2.userId user2_userId
+		,user2.userName user2_userName
+		,user2.age
+		user2_age
+		FROM
+		tb_user.emp
+		JOIN tb_user.userinfo
+		ON (emp.id =
+		userinfo.id)
+		JOIN tb_user.user2
+		ON (emp.userId = user2.userId)
+	</select>
+
+	<resultMap type="zjq.model.User" id="userResultMap4" extends="BaseResultMap">
+		<collection property="userget" javaType="list"
+			ofType="zjq.model.usertest">
+			<id property="userid" column="user2_userId" />
+			<result property="username" column="user2_userName" />
+			<result property="age" column="user2_age" />
+		</collection>
+	</resultMap>
+
+	<select id="getAll4" resultMap="userResultMap4">
+		SELECT
+		emp.ip emp_ip
+		,emp.userId
+		emp_userId
+		,emp.id emp_id
+		,userinfo.id
+		,userinfo.name
+		,userinfo.age
+		,user2.userId user2_userId
+		,user2.userName user2_userName
+		,user2.age
+		user2_age
+		FROM
+		tb_user.emp
+		JOIN tb_user.userinfo
+		ON (emp.id =
+		userinfo.id)
+		JOIN tb_user.user2
+		ON (emp.userId = user2.userId)
+	</select>
+
+
+	<select id="getAll6" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		userinfo
+	</select>
+
+
+	<select id="getAll7" resultMap="BaseResultMap" parameterType="Map">
+		SELECT * FROM userinfo LIMIT
+		#{row,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+
+	<select id="getlike" resultMap="BaseResultMap" parameterType="Map">
+		SELECT * FROM userinfo WHERE id like '%${gex}%' 
+		LIMIT
+		#{row,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+	</select>
+
+	<select id="getliketo" resultMap="BaseResultMap" parameterType="Map">
+		SELECT * FROM userinfo WHERE id like '%${gex}%'
+	</select>
+
+</mapper>

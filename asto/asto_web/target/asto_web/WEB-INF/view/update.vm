@@ -1,0 +1,7 @@
+<h1>修改页面</h1>
+<form action="/asto_web/UserController/updateto/${id}.do" method="get">
+   编号:<input type="text" name="id"  readonly="readonly" value="$!{id}"/></br>
+   姓名:<input type="text" name="name" />$!{name}</br>
+   年龄: <input type="text" name="age"/>$!{errors}</br>
+   <input type="submit" value="修改">
+</form>

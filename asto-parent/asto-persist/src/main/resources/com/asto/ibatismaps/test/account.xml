@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="account">
+	<typeAlias alias="accountId" type="com.asto.domain.domain.Account" />
+
+	<resultMap id="accountIdResult" class="accountId">
+		<result property="id" column="id" />
+		<result property="account" column="account" />
+		<result property="companyId" column="company_id" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="ip" column="ip" />
+		<result property="gmtLastLogin" column="gmt_last_login" />
+		<result property="gmtCraeted" column="gmt_created" />
+		<result property="gmtModified" column="gmt_modified" />
+		<result property="password" column="password" />
+		<result property="pwdMd5" column="password_md5" />
+		<result property="sumMoney" column="sum_money" />
+		<result property="payPassword" column="pay_password" />
+	</resultMap>
+
+	<sql id="fullColumn">
+		id, account, company_id, mobile, email,
+		ip,gmt_last_login,gmt_created,gmt_modified,password,password_md5,sum_money,pay_password
+	</sql>
+
+	<select id="queryByAll" resultMap="accountIdResult">
+		select
+		<include refid="fullColumn" />
+		from company_account
+	</select>
+</sqlMap>

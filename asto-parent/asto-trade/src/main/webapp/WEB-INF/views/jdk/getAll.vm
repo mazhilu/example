@@ -1,0 +1,8 @@
+配置成功　　ｏｋｏｋｏｋｏｋ  
+<a href="#springUrl('/index.htm')"> asdf</a><br/>
+
+#foreach($in in $list)
+	account : $!{in.account}<br/>
+	mobile  : $!{in.mobile}<br/>
+	email   : $!{in.email}<br/>
+#end
